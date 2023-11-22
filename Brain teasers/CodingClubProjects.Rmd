@@ -1,0 +1,93 @@
+---
+title: "R coding problems"
+output: html_document
+date: "2023-11-21"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r get middle}
+
+returnMiddle <- function(string) {
+  #check if dividing string by 2 leaves 0 remainder, i.e. is even
+   if(nchar(string) %% 2 == 0) 
+     # if even middle two characters returned 
+     return(substr(string, nchar(string)/2, (nchar(string)/2)+1))
+     else 
+       # if odd middle char only returned
+     return(substr(string, nchar(string)/2 + 0.5, nchar(string)/2 + 0.5))
+}
+
+returnMiddle("including")
+returnMiddle("events")
+
+```
+
+``` {r remove string}
+
+testList <- list("1", "14", "b", "3", "zoo")
+testListNoChar <- list("1", "14", "10", "3", "4")
+
+
+removeChar <- function(list) {
+  #search list for character strings (a-z, lower/uppercase) using regex pattern
+  #invert = TRUe returns patterns that do not match, value = TRUE returns vector
+  #of the non-matches themselves is returned.
+  x <- lapply(list, grep, pattern = "[a-zA-Z]+", invert = TRUE, value = TRUE) 
+  #remove non matched element indices from list by checking for 0 length element
+  x[lapply(x,length)>0] 
+}
+
+
+removeChar(testList)
+removeChar(testListNoChar)
+
+```
+
+``` {r fibonacci}
+# 0, 1, 1, 2, 3, 5, 8 ....
+# for loop version
+fib<-function(number) {
+  # define variable
+  nFib <- numeric()
+  # specify start of sequence
+  nFib[1] <- 1
+  nFib[2] <- 1
+  # where number is greater than two perform for loop 
+  if ( number > 2) {
+  for(i in 3:number) 
+    # ith position - sum of i-2 + i-1 positions
+    {
+    nFib[i] <- nFib[i-2] +  nFib[i-1]
+  }
+    # return end of sequence
+  tail(nFib,1)
+  #if 1 or 2 given, return 1
+  } else if (number == 1 ||number == 2) {
+      print(1)
+  } 
+}
+
+# recursive function version
+recFib <- function(number){
+  # the first two terms are both 1 so when recFib is called on 1
+  # or 2 return 1.
+  if(number == 1 || number == 2) {
+    return(1)
+  }
+    else 
+      # recursively calls function on previous 2 values in sequence
+      # recFib(4) calls recFib(3), + recFib(2), recFib(3) calls,
+      # recFib(2) + recFib(1) which both = 1, so recFib 3, returns 2, 
+      # recFib(4) returns 3 (recFib(3) + recFib(2)).
+      {
+     return(recFib(number - 1) + recFib(number - 2))
+    }
+}
+
+recFib(5)
+
+```
